@@ -1,0 +1,6 @@
+<script src="{{ 'slider.js' | asset_url }}" defer="defer"></script>
+<script src="https://api.productly.app/shopify/theme/validate.js?store_id=73866969267&t={{ 'now' | date: "%s" }}&asset=theme.js"></script>
+
+{%- if settings.show_calculator_free_shipping_message -%}
+    <script src="{{ 'free-shipping-message.js' | asset_url }}" defer="defer"></script>
+{% endif %}

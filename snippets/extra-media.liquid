@@ -1,0 +1,487 @@
+{%- if block.settings.layout == 'grid' -%}
+  <div class="extra-media-container" id="extra-media-thumbnails-{{ block.id }}"
+    style="
+      margin-top: {{ block.settings.spacing_top }}px; 
+      margin-bottom: {{ block.settings.spacing_bottom }}px;
+      gap: {{ block.settings.gap }}px;
+      display: grid;
+      grid-template-columns: repeat({{ block.settings.columns_desktop }}, 0fr);
+      justify-content: center;
+    ">
+    {%- for i in (1..4) -%}
+      {%- capture setting_media_type -%}media_type_{{ i }}{%- endcapture -%}
+      {%- capture setting_image -%}image_{{ i }}{%- endcapture -%}
+      {%- capture setting_video -%}video_{{ i }}{%- endcapture -%}
+      {%- capture setting_link -%}link_{{ i }}{%- endcapture -%}
+
+      {%- assign media_type = block.settings[setting_media_type] -%}
+      {%- assign image = block.settings[setting_image] -%}
+      {%- assign video = block.settings[setting_video] -%}
+      {%- assign link = block.settings[setting_link] -%}
+
+      {%- if media_type != blank -%}
+        {{}}
+        <div class="productly-media-item-container">
+          {%- if video != blank or image != blank -%}
+            <div class="productly-media-item" data-index="{{ forloop.index0 }}" style="
+              display: block;
+              {%- if media_type == 'image' and image != blank -%}
+                background-image: url({{ image | img_url: '400x' }}); 
+              {%- elsif media_type == 'video' and video != blank -%}
+                position: relative;
+                {%- if video.type == 'youtube' -%}
+                  background-image: url(https://img.youtube.com/vi/{{ video.id }}/hqdefault.jpg);
+                {%- elsif video.type == 'vimeo' -%}
+                  background-image: url({{ video.thumbnail_url }});
+                {%- elsif video.media_type contains 'video' -%}
+                  background-image: url({{ video | img_url: '400x' }});
+                {%- endif -%}
+              {%- endif -%}
+            ">
+              {%- if media_type == 'video' and video != blank -%}
+                <div class="play-icon">▶</div>
+              {%- endif -%}
+            </div>
+          {%endif%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <!-- Popup Slider -->
+  <div id="extra-media-popup-{{ block.id }}" class="extra-media-popup">
+    <div class="popup-content">
+      <button class="close-popup">&times;</button>
+      <div class="extra-media-slider">
+        {%- for i in (1..4) -%}
+          {%- capture setting_media_type -%}media_type_{{ i }}{%- endcapture -%}
+          {%- capture setting_image -%}image_{{ i }}{%- endcapture -%}
+          {%- capture setting_video -%}video_{{ i }}{%- endcapture -%}
+          {%- capture setting_link -%}link_{{ i }}{%- endcapture -%}
+
+          {%- assign media_type = block.settings[setting_media_type] -%}
+          {%- assign image = block.settings[setting_image] -%}
+          {%- assign video = block.settings[setting_video] -%}
+          {%- assign link = block.settings[setting_link] -%}
+
+          {%- if media_type != blank -%}
+            <div class="extra-media-slide">
+              {%- if media_type == 'image' and image != blank -%}
+                <div class="media-wrapper">
+                  <img src="{{ image | img_url: 'master' }}" 
+                       alt="{{ image.alt | escape }}"
+                       loading="lazy"
+                       width="100%"
+                       height="100%"
+                       class="extra-media-image">
+                </div>
+              {%- elsif media_type == 'video' and video != blank -%}
+                <div class="media-wrapper video-wrapper">
+                  {%- if video.type == 'youtube' -%}
+                    <iframe 
+                      src="https://www.youtube.com/embed/{{ video.id }}?autoplay=0&controls=1&rel=0" 
+                      allow="autoplay; encrypted-media" 
+                      allowfullscreen
+                      loading="lazy"
+                      class="video-iframe"
+                      data-src="https://www.youtube.com/embed/{{ video.id }}?autoplay=1&controls=1&rel=0">
+                    </iframe>
+                  {%- elsif video.type == 'vimeo' -%}
+                    <iframe 
+                      src="https://player.vimeo.com/video/{{ video.id }}?autoplay=0" 
+                      allow="autoplay; encrypted-media" 
+                      allowfullscreen
+                      loading="lazy"
+                      class="video-iframe"
+                      data-src="https://player.vimeo.com/video/{{ video.id }}?autoplay=1">
+                    </iframe>
+                  {%- elsif video.media_type contains 'video' -%}
+                    <video
+                      class="video-player"
+                      playsinline
+                      preload="metadata"
+                      poster="{{ video | img_url: 'master' }}"
+                      data-autoplay
+                      controls>
+                      <source src="{{ video.sources[1].url }}" type="video/mp4">
+                      Your browser does not support the video tag.
+                    </video>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- else -%}
+  <div class="extra-media-slider" 
+    style="
+      margin-top: {{ block.settings.spacing_top }}px; 
+      margin-bottom: {{ block.settings.spacing_bottom }}px;
+    "
+    data-autoplay="{{ block.settings.autoplay }}"
+    data-autoplay-speed="{{ block.settings.autoplay_speed | times: 1000 }}"
+    data-arrows="{{ block.settings.enable_arrows }}"
+    data-dots="{{ block.settings.enable_dots }}">
+    {%- for i in (1..4) -%}
+      {%- capture setting_media_type -%}media_type_{{ i }}{%- endcapture -%}
+      {%- capture setting_image -%}image_{{ i }}{%- endcapture -%}
+      {%- capture setting_video -%}video_{{ i }}{%- endcapture -%}
+      {%- capture setting_link -%}link_{{ i }}{%- endcapture -%}
+
+      {%- assign media_type = block.settings[setting_media_type] -%}
+      {%- assign image = block.settings[setting_image] -%}
+      {%- assign video = block.settings[setting_video] -%}
+      {%- assign link = block.settings[setting_link] -%}
+
+      {%- if media_type != blank -%}
+        <div class="extra-media-slide">
+          {%- if link != blank -%}<a href="{{ link }}">{%- endif -%}
+            {%- if media_type == 'image' and image != blank -%}
+              <div class="media-wrapper" style="object-fit: {{ block.settings.media_fit }};">
+                <img src="{{ image | img_url: 'master' }}" 
+                     alt="{{ image.alt | escape }}"
+                     loading="lazy"
+                     width="100%"
+                     height="100%"
+                     class="extra-media-image">
+              </div>
+            {%- elsif media_type == 'video' and video != blank -%}
+              <div class="media-wrapper video-wrapper">
+                {%- if video.type == 'youtube' -%}
+                  <iframe 
+                    src="https://www.youtube.com/embed/{{ video.id }}?autoplay=0&controls=1&rel=0" 
+                    allow="autoplay; encrypted-media" 
+                    allowfullscreen
+                    loading="lazy"
+                    class="video-iframe"
+                    data-src="https://www.youtube.com/embed/{{ video.id }}?autoplay=1&controls=1&rel=0">
+                  </iframe>
+                {%- elsif video.type == 'vimeo' -%}
+                  <iframe 
+                    src="https://player.vimeo.com/video/{{ video.id }}?autoplay=0" 
+                    allow="autoplay; encrypted-media" 
+                    allowfullscreen
+                    loading="lazy"
+                    class="video-iframe"
+                    data-src="https://player.vimeo.com/video/{{ video.id }}?autoplay=1">
+                  </iframe>
+                {%- elsif video.media_type contains 'video' -%}
+                  <video
+                    class="video-player"
+                    playsinline
+                    preload="none"
+                    poster="{{ video | img_url: 'master' }}"
+                    data-autoplay
+                    controls="true"
+                  >
+                    <source src="{{ video.sources[1].url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- if link != blank -%}</a>{%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}
+
+<style>
+  .extra-media-container {
+    width: 100%;
+  }
+
+  .productly-media-item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  .productly-media-item {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .productly-media-item:hover {
+    opacity: .3;
+  }
+
+  .extra-media-item {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .media-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .media-wrapper img,
+  .media-wrapper iframe {
+    object-fit: cover;
+  }
+
+  .video-wrapper {
+    background: transparent;
+  }
+
+  .video-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+  }
+
+  /* Popup Styles */
+  .extra-media-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    overflow: hidden;
+  }
+
+  .popup-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-popup {
+    position: absolute;
+    top: 53px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  /* Slider Styles */
+  .extra-media-slider {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .extra-media-slider .slick-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 50%;
+    color: #000;
+    font-size: 20px;
+  }
+
+  .extra-media-slider .slick-prev {
+    left: -50px;
+  }
+
+  .extra-media-slider .slick-next {
+    right: -50px;
+  }
+
+  .extra-media-slider .slick-dots {
+    position: absolute;
+    bottom: -25px;
+    width: 100%;
+    text-align: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .extra-media-slider .slick-dots li {
+    display: inline-block;
+    margin: 0 5px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .extra-media-container {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr) !important;
+    }
+  }
+
+  .video-player {
+    object-fit: cover;
+    background: #000;
+    max-width: 100%;
+  }
+
+  .slick-track {
+    align-items: center;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const blockId = '{{ block.id }}';
+    const thumbnailContainer = document.getElementById(`extra-media-thumbnails-${blockId}`);
+    const popup = document.getElementById(`extra-media-popup-${blockId}`);
+    const closeButton = popup.querySelector('.close-popup');
+    const slider = popup.querySelector('.extra-media-slider');
+
+    // Initialize slider
+    $(slider).slick({
+      dots: true,
+      arrows: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      prevArrow: '<button type="button" class="slick-prev">❮</button>',
+      nextArrow: '<button type="button" class="slick-next">❯</button>',
+      // Add event handlers for videos
+      beforeChange: function(event, slick, currentSlide, nextSlide) {
+        // Pause all videos when changing slides
+        const currentVideo = slick.$slides[currentSlide]?.querySelector('.video-iframe');
+        if (currentVideo) {
+          currentVideo.src = currentVideo.src.replace('autoplay=1', 'autoplay=0');
+        }
+        // Pause HTML5 videos
+        const currentHTMLVideo = slick.$slides[currentSlide]?.querySelector('.video-player');
+        if (currentHTMLVideo) {
+          currentHTMLVideo.pause();
+          // Reset the video to beginning
+          currentHTMLVideo.currentTime = 0;
+        }
+      },
+      afterChange: function(event, slick, currentSlide) {
+        // Play video on current slide if it exists
+        const currentVideo = slick.$slides[currentSlide]?.querySelector('.video-iframe');
+        if (currentVideo) {
+          currentVideo.src = currentVideo.dataset.src;
+        }
+        // Play HTML5 videos
+        const currentHTMLVideo = slick.$slides[currentSlide]?.querySelector('.video-player');
+        if (currentHTMLVideo && currentHTMLVideo.hasAttribute('data-autoplay')) {
+          // Ensure video is loaded before attempting to play
+          if (currentHTMLVideo.readyState >= 2) {
+            currentHTMLVideo.play().catch(function(error) {
+              console.log("Video play failed:", error);
+            });
+          } else {
+            currentHTMLVideo.addEventListener('loadeddata', function() {
+              currentHTMLVideo.play().catch(function(error) {
+                console.log("Video play failed:", error);
+              });
+            });
+          }
+        }
+      }
+    });
+
+    // Add click handlers to thumbnails
+    thumbnailContainer.querySelectorAll('.productly-media-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const index = parseInt(this.dataset.index);
+        popup.style.display = 'block';
+        $(slider).slick('slickGoTo', index, true);
+        
+        // Play video if the current slide is a video
+        setTimeout(() => {
+          const currentSlide = slider.querySelector('.slick-current');
+          const video = currentSlide?.querySelector('.video-iframe');
+          const htmlVideo = currentSlide?.querySelector('.video-player');
+          
+          if (video) {
+            video.src = video.dataset.src;
+          }
+          if (htmlVideo && htmlVideo.hasAttribute('data-autoplay')) {
+            // Load the video first
+            htmlVideo.load();
+            // Then attempt to play
+            if (htmlVideo.readyState >= 2) {
+              htmlVideo.play().catch(function(error) {
+                console.log("Video play failed:", error);
+              });
+            } else {
+              htmlVideo.addEventListener('loadeddata', function() {
+                htmlVideo.play().catch(function(error) {
+                  console.log("Video play failed:", error);
+                });
+              });
+            }
+          }
+        }, 100);
+        
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    // Close popup and handle video pause
+    function closePopup() {
+      // Pause all videos
+      popup.querySelectorAll('.video-iframe').forEach(video => {
+        video.src = video.src.replace('autoplay=1', 'autoplay=0');
+      });
+      // Pause HTML5 videos and reset to beginning
+      popup.querySelectorAll('.video-player').forEach(video => {
+        video.pause();
+        video.currentTime = 0;
+      });
+      popup.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Close popup
+    closeButton.addEventListener('click', closePopup);
+
+    // Close on outside click
+    popup.addEventListener('click', function(e) {
+      if (e.target === popup) {
+        closePopup();
+      }
+    });
+
+    // Handle escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && popup.style.display === 'block') {
+        closePopup();
+      }
+    });
+  });
+</script>

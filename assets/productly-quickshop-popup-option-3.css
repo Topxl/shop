@@ -1,0 +1,205 @@
+#productly-quickshop-popup-option-3 {
+    max-width: 610px;
+    width: 70%;
+    transform: translate(calc(-50% + 10px), -50%);
+}
+
+body.quickshop-popup-show #productly-quickshop-popup-option-3 {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    transform: translate(-50%,-50%);
+}
+
+body.quickshop-popup-show {
+    overflow-y: hidden;
+}
+
+body.quickshop-popup-show .background-overlay {
+    display: block;
+}
+
+#productly-quickshop-popup-option-3 .productly-popup-wrapper {
+    padding: 20px;
+}
+
+#productly-quickshop-popup-option-3 .on-desktop-hide {
+    display: none;
+}
+
+#productly-quickshop-popup-option-3 .on-mobile-hide {
+    display: block;
+}
+
+#productly-quickshop-popup-option-3 .productView-top {
+    padding-right: 0;
+    display: flex;
+}
+
+#productly-quickshop-popup-option-3 .productView-thumbnail-wrapper, 
+#productly-quickshop-popup-option-3 .productView-desc,
+#productly-quickshop-popup-option-3 .productView-info,
+#productly-quickshop-popup-option-3 .productView-property,
+#productly-quickshop-popup-option-3 .productView-wishlist,
+#productly-quickshop-popup-option-3 .productView-more,
+#productly-quickshop-popup-option-3 .productView-hotStock,
+#productly-quickshop-popup-option-3 .productView-notifyMe {
+    display: none;
+}
+
+#productly-quickshop-popup-option-3 .price {
+    justify-content: flex-start;
+}
+
+#productly-quickshop-popup-option-3 .productly-productView-left {
+    width: 45%;
+    padding-right: 20px;
+}
+
+#productly-quickshop-popup-option-3 .productly-productView-right {
+    width: 55%;	
+    margin-bottom: 0;
+}
+
+#productly-quickshop-popup-option-3 .product-option {
+    flex-direction: column;
+}
+
+#productly-quickshop-popup-option-3 .productView-image-wrapper {
+    width: 100%;
+}
+
+#productly-quickshop-popup-option-3 .productView-quantity input {
+    width: 94px;
+}
+
+#productly-quickshop-popup-option-3 .productView-see-details {
+    font-size: var(--font-body-size);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    margin-top: 15px;
+}
+
+#productly-quickshop-popup-option-3 .productView-options {
+    border-top: none;
+    padding-top: 0;
+    margin-bottom: 0;
+    margin-top: 7px;
+}
+
+#productly-quickshop-popup-option-3 .product-form__swatch .product-form__label {
+    width: 30px;
+    height: 30px;
+}
+
+#productly-quickshop-popup-option-3 .product-form__label .text {
+    min-width: 30px;
+    height: 30px;
+    line-height: 30px;
+}
+
+#productly-quickshop-popup-option-3 .productView-groupTop {
+    margin-top: 0;
+}
+
+#productly-quickshop-popup-option-3 .productView-title {
+    font-size: calc(var(--product-title-font-size) + 2px);
+    margin-bottom: 10px;
+}
+
+#productly-quickshop-popup-option-3 .price.price--large .price-item .money {
+    font-size: calc(var(--product-price-font-size) + 2px);
+}
+
+@media screen and (max-width: 767px) {
+    #productly-quickshop-popup-option-3 {
+        width: 90%;
+    }
+
+    #productly-quickshop-popup-option-3 .productView-groupTop {
+        flex-wrap: wrap;
+    }
+
+    #productly-quickshop-popup-option-3 .productView-groupTop .productView-action {
+        margin-top: 15px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    #productly-quickshop-popup-option-3 .on-desktop-hide {
+        display: block;
+    }
+    
+    #productly-quickshop-popup-option-3 .on-mobile-hide {
+        display: none;
+    }
+
+    #productly-quickshop-popup-option-3 .productly-productView-right {
+        width: 100%;
+        margin: 0;
+    }
+
+    #productly-quickshop-popup-option-3 .productView-product {
+        display: grid;
+        grid-template-areas: 
+            "image title"
+            "image price"
+            "options options"
+        ;
+        column-gap: 15px;
+    }
+
+    #productly-quickshop-popup-option-3 .productView-product .productView-images.on-desktop-hide {
+        grid-area: image;
+        width: 100px;
+    }
+
+    #productly-quickshop-popup-option-3 .productView-title {
+        grid-area: title;
+    }
+
+    #productly-quickshop-popup-option-3 .productView-price {
+        grid-area: price;
+    }
+
+    #productly-quickshop-popup-option-3 .productView-options {
+        grid-area: options;
+        margin-top: 15px;
+    }
+
+    #productly-quickshop-popup-option-3 .product-form__input {
+        text-align: center;
+    }
+
+    #productly-quickshop-popup-option-3 .product-form__input .form__label {
+        margin: 0 auto;
+    }
+
+    #productly-quickshop-popup-option-3 .product-form .productView-action {
+        width: 100%;
+    }
+
+    #productly-quickshop-popup-option-3 .productView-groupTop {
+        justify-content: center;
+    }
+
+    #productly-quickshop-popup-option-3 .productView-groupTop .productView-action {
+        width: 100%;
+    }
+
+    #productly-quickshop-popup-option-3 .productView-see-details {
+        text-align: center;
+    }
+
+    #productly-quickshop-popup-option-3 .previewCartItem-qty {
+        margin: 0 auto;
+    }
+
+    #productly-quickshop-popup-option-3 .on-desktop-hide .productView-badge {
+        display: none;
+    }
+
+    #productly-quickshop-popup-option-3 .previewCartItem-qty .btn-quantity {
+        top: -3px;
+    }
+}

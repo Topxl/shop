@@ -1,0 +1,306 @@
+.quickView .productView-top {
+    padding-right: 0;
+}
+
+.productly-quick-view-popup .productly-popup-wrapper {
+    padding: 30px 0 0 0;
+}
+
+.productly-quick-view-popup .productly-popup-content {
+    padding: 0 30px 30px 30px;
+}
+
+body.quick-view-show {
+    overflow-y: hidden;
+    /*height: 100%;*/
+}
+
+body.quick-view-show .background-overlay {
+    opacity: 1;
+    pointer-events: all;
+}
+
+body.quick-view-show.size-chart-show .productly-quick-view-popup:before,
+body.quick-view-show.compare-color-show .productly-quick-view-popup:before,
+body.quick-view-show.ask-an-expert-show .productly-quick-view-popup:before {
+    content: "";
+    background-color: #232323cc;
+    position: absolute;
+    top: -1px;
+    width: 100%;
+    height: calc(100% + 2px);
+    z-index: 3;
+}
+
+body.quick-view-show.cart-sidebar-show .productly-cart-sidebar {
+    z-index: 102;
+}
+
+body.quick-view-show.cart-sidebar-show .background-overlay {
+    z-index: 102;
+}
+
+body.quick-view-show .productly-quick-view-popup {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate3d(-50%, -50%, 0);
+}
+
+.productly-quick-view-popup .productly-popup-close svg {
+    stroke: #fff;
+    stroke-width: 1px;
+}
+
+.productly-quick-view-popup .productly-quickView.layout-4 .productView-thumbnail-wrapper {
+    display: none;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-thumbnail {
+    padding: 0 7.5px;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-title {
+    line-height: 30px;
+    position: relative;
+    top: -7px;
+    margin-bottom: 5px;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-meta,
+.productly-quick-view-popup .productView-desc.productly-text-format {
+    margin-bottom: 12px;
+    font-size: var(--fontsize_short_desc);
+    color: var(--color_short_desc);
+}
+.productly-quick-view-popup .productView-desc.productly-text-format * {
+  color: var(--color_short_desc);
+}
+.productly-quick-view-popup .productly-quickView .productView-info {
+    margin-bottom: 17px;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-price {
+    margin-bottom: 20px;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-countDown {
+    margin-bottom: 18px;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-countDown .text {
+    display: none;
+}
+
+.productly-quick-view-popup .productly-quickView .product-form__input+.product-form__input {
+    margin-top: 10px;
+}
+
+.productly-quick-view-popup .productly-quickView .product-form__input .form__label {
+    margin-bottom: 4px;
+}
+
+.productly-quick-view-popup .productly-quickView .quantity_selector {
+    margin-bottom: 8px;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-subtotal {
+    margin-bottom: 14px;
+    font-size: calc((var(--font-body-size)) + 1px);
+    font-weight: var(--font-weight-medium);
+}
+
+.productly-quick-view-popup .productly-quickView .productView-perks {
+    margin-bottom: 22px;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-perks > div {
+    margin-left: 0;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-perks div + div {
+    margin-left: 20px;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-payment {
+    margin-bottom: 15px;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-groupTop {
+    margin-bottom: 13px;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-groupBottom {
+    margin-top: 0;
+}
+
+.productly-quick-view-popup .productly-quickView .productly-notifyMe {
+    padding: 15px 0;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-ViewingProduct .text {
+    position: relative;
+    top: -1px;
+}
+
+.productly-quick-view-popup .productly-quickView .product-option {
+    display: inherit;
+    margin: 0;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-property {
+    margin-bottom: 15px;
+}
+
+.productly-quick-view-popup .productly-quickView .product-form__label:hover .expand {
+    display: none;
+}
+
+.productly-quick-view-popup .productView-securityImage ul li {
+    margin-top: 15px;
+}
+
+.productly-quick-view-popup .product-form__label .tooltip {
+    display: none;
+}
+
+.size-chart-show .productly-quick-view-popup .productly-popup-wrapper > .productly-popup-close,
+.compare-color-show .productly-quick-view-popup .productly-popup-wrapper > .productly-popup-close,
+.ask-an-expert-show .productly-quick-view-popup .productly-popup-wrapper > .productly-popup-close {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+quantity-quick-view-input.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-soldProduct {
+    margin-left: 0;
+}
+
+.productly-quick-view-popup .productly-quickView .productView-rating + .productView-soldProduct {
+    margin-top: 5px;
+}
+
+@media (max-width: 767px) {
+    .productly-quick-view-popup .productly-quickView .productView-action {
+        width: 100%;
+    }
+    /* START: New Style Quick View Mobile */
+        .productly-quick-view-popup .productView-nav {
+            margin: 0px -5px;
+        }
+
+        .productly-quick-view-popup .productView-image {
+            padding: 0px 5px;
+        }
+    /* END: New Style Quick View Mobile */
+}
+
+@media (max-width: 550px){
+    /* START: New Style Quick View Mobile */
+        .productView {
+            padding-bottom: 20px;
+            padding-top: 0;
+        }
+
+        .productly-quick-view-popup .productly-popup-close {
+            top: 10px;
+            right: 5px;
+            background-color: transparent;
+        }
+
+        .productly-quick-view-popup .productly-popup-wrapper {
+            padding-top: 50px;
+        }
+
+        .productly-quick-view-popup .productly-popup-close svg {
+            fill: var(--bg-black);
+        }
+
+        .productly-quick-view-popup .productly-quickView .productView-info {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -5px;
+        }
+
+        .productView-info-item {
+            width: 50%;
+            padding: 0 5px;
+        }
+
+        body.quick-view-show .productly-quick-view-popup {
+            transform: translateY(0);
+        }
+
+        .productly-quick-view-popup .productly-popup-content {
+            padding: 0;
+            margin-top: 0;
+        }
+
+        .productly-quick-view-popup .productly-productView-right {
+            padding: 0px 10px;
+        }
+
+        .productly-quick-view-popup .productly-quickView .productView-title {
+            margin-bottom: 0;
+        }
+
+        .productView-quantity,
+        .productly-quick-view-popup .productly-quickView .product-form__input+.product-form__input,
+        .productly-quick-view-popup .productly-quickView .productView-rating+.productView-soldProduct {
+            margin-top: 0;
+        }
+
+        .productly-quick-view-popup .productly-quickView .productView-perks,
+        .productly-quick-view-popup .productly-quickView .productView-price {
+            margin-bottom: 10px;
+        }
+    /* END: New Style Quick View Mobile */
+}
+
+@media screen and (min-width: 551px){
+    /* START: New Style Quick View Mobile */
+        body.quick-view-show .productly-quick-view-popup {
+            transform: translate3d(-50%,-50%,0);
+        }
+    /* END: New Style Quick View Mobile */
+}
+@media (min-width: 992px) {
+    .quickView .productly-quickView-right {
+        position: sticky;
+        top: 0;
+    }
+
+    .quickView .productView-securityImage ul li {
+        margin-top: 20px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .productly-quick-view-popup .productly-productView-left {
+        width: 54.645%;
+        padding-right: 30px;
+    }
+
+    .productly-quick-view-popup .productly-productView-right {
+        width: 45.355%;
+    }
+}
+
+@media (min-width: 1280px) {
+    .productly-quick-view-popup .productly-popup-wrapper {
+        padding-top: 20px;
+    }
+
+    .productly-quick-view-popup .productly-popup-content {
+        padding: 0 50px 50px 50px;
+    }
+}

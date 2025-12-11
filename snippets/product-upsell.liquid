@@ -1,0 +1,63 @@
+{% if block.settings.show_upsell == true and block.settings.upsell_product != blank %}
+  {% assign upsell_product = all_products[block.settings.upsell_product] %}
+  {% if upsell_product != blank %}
+    <div class="productView-upsell-container" style="margin-top: {{ block.settings.spacing_top }}px; margin-bottom: {{ block.settings.spacing_bottom }}px;">
+      <h3 style="margin: 0">{{ block.settings.upsell_checkbox_text }}</h3>
+      <p style="margin: 0;">{{ block.settings.upsell_checkbox_description }}</p>
+      <div class="productView-upsell" data-upsell-wrapper>
+        <div class="productView-upsell__product" data-layout="{{ block.settings.upsell_layout }}">
+          {% if block.settings.show_product_image %}
+          <img src="{{ upsell_product.featured_image | img_url: '120x' }}" 
+              alt="{{ upsell_product.title | escape }}"
+              width="60"
+              height="60"
+              loading="lazy">
+          {% endif %}
+          <div class="productView-upsell__info">
+            <label for="upsell-checkbox-{{ section.id }}" style="cursor: pointer; user-select: none;">
+              <span class="productView-upsell__title">{{ upsell_product.title }}</span>
+            </label>
+            <div class="productView-upsell__price-container">
+              {% if block.settings.show_product_price %}
+                <span class="productView-upsell__price">+{{ upsell_product.selected_or_first_available_variant.price | money }}</span>
+              {% endif %}
+              <input type="checkbox" 
+                class="upsell-checkbox"
+                id="upsell-checkbox-{{ section.id }}"
+                data-upsell-checkbox 
+                data-upsell-product-id="{{ upsell_product.selected_or_first_available_variant.id }}" />
+            </div>
+          </div>
+        </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const productForm = document.querySelector('product-form');
+            const form = productForm?.querySelector('form');
+            const upsellCheckbox = document.getElementById('upsell-checkbox-{{ section.id }}');
+            
+            if (form && upsellCheckbox) {
+              // Add event listener to the checkbox
+              upsellCheckbox.addEventListener('change', function() {
+                // Get the hidden input or create it if it doesn't exist
+                let upsellInput = form.querySelector('[name="upsell_product_id"]');
+                if (!upsellInput) {
+                  upsellInput = document.createElement('input');
+                  upsellInput.type = 'hidden';
+                  upsellInput.name = 'upsell_product_id';
+                  form.appendChild(upsellInput);
+                }
+                
+                // Set or clear the value based on checkbox state
+                if (this.checked) {
+                  upsellInput.value = this.dataset.upsellProductId;
+                } else {
+                  upsellInput.value = '';
+                }
+              });
+            }
+          });
+        </script>
+      </div>
+    </div>
+  {% endif %}
+{% endif %}

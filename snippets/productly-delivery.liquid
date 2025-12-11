@@ -1,0 +1,206 @@
+<div class="delivery-timeline">
+  {% assign today_date = 'now' | date: '%Y-%m-%d' %}
+  {% assign tomorrow_date = 'now' | date: '%s' | plus: 86400 | date: '%Y-%m-%d' %}
+  
+  <div class="delivery-grid">
+    {%- comment -%} First Column - Order Date {%- endcomment -%}
+    <div class="delivery-column">
+      <div class="delivery-icon delivery-icon__first-step">
+        {% if block.settings.step_icon_1 != blank %}
+          {{ block.settings.step_icon_1 }}
+        {% else %}
+          {% render 'icon-cart-03' %}
+        {% endif %}
+      </div>
+      <div class="delivery-date delivery-date__first-step">
+        {% assign day = today_date | date: '%d' %}
+        {% assign month = today_date | date: '%m' %}
+
+        {{ day }}/{{ month }}
+      </div>
+      <div class="delivery-label delivery-label__first-step">
+        {{ block.settings.ordered_text | default: 'Ordered' }}
+      </div>
+    </div>
+
+    {%- comment -%} Second Column - Processing Date {%- endcomment -%}
+    <div class="delivery-column">
+      <div class="delivery-icon delivery-icon__second-step">
+        {% if block.settings.step_icon_2 != blank %}
+          {{ block.settings.step_icon_2 }}
+        {% else %}
+          {% render 'icon-delivery-01' %}
+        {% endif %}
+      </div>
+      <div class="delivery-date delivery-date__second-step">
+        {% assign day = tomorrow_date | date: '%d' %}
+        {% assign month = tomorrow_date | date: '%m' %}
+
+        {{ day }}/{{ month }}
+      </div>
+      <div class="delivery-label delivery-label__second-step">
+        {{ block.settings.order_ready_text | default: 'Order Ready' }}
+      </div>
+    </div>
+
+    {%- comment -%} Third Column - Delivery Date {%- endcomment -%}
+    <div class="delivery-column">
+      <div class="delivery-icon delivery-icon__third-step">
+        {% if block.settings.step_icon_3 != blank %}
+          {{ block.settings.step_icon_3 }}
+        {% else %}
+          {% render 'icon-check' %}
+        {% endif %}
+      </div>
+      <div class="delivery-date delivery-date__third-step">
+        {% assign delivery_days = block.settings.delivery_days | default: 7 %}
+        {% assign seconds_to_add = delivery_days | times: 86400 %}
+        {% assign delivery_timestamp = 'now' | date: '%s' | plus: seconds_to_add %}
+        {% assign delivery_date = delivery_timestamp | date: '%b %d' %}
+        <div class="delivery-date">
+          {% assign day = delivery_date | date: '%d' %}
+          {% assign month = delivery_date | date: '%m' %}
+
+          {{ day }}/{{ month }}
+        </div>
+        <input 
+          type="hidden" 
+          name="properties[Delivery Date]"
+          value="{{ delivery_timestamp | date: '%Y-%m-%d' }}"
+        >
+      </div>
+      <div class="delivery-label delivery-label__third-step">
+        {{ block.settings.delivery_text | default: 'Delivered' }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.delivery-timeline {
+  margin: 4rem 0;
+}
+
+.delivery-grid {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  padding: 1rem 0;
+  justify-content: space-between;
+}
+{% if block.settings.show_center_line %}
+.delivery-grid::before {
+  content: '';
+  position: absolute;
+  top: 2.7rem;
+  left: 6%;
+  right: 6%;
+  height: 2px;
+  background: {{ block.settings.delivery_line_color }};
+  z-index: -1;
+}
+{% endif %}
+
+.delivery-5column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.delivery-column {
+  max-width: 32px;
+  position: relative;
+}
+
+.delivery-column:first-child {
+  align-items: start;
+}
+
+.delivery-column:last-child {
+  align-items: end;
+  justify-items: end;
+}
+
+.delivery-column:nth-child(2){
+  justify-items: center;
+  align-items: end;
+}
+
+.delivery-icon__first-step {
+  background-color: {{ block.settings.bg_color_icon_1 }};
+}
+.delivery-icon__second-step {
+  background-color: {{ block.settings.bg_color_icon_2 }};
+}
+.delivery-icon__third-step {
+  background-color: {{ block.settings.bg_color_icon_3 }};
+}
+.delivery-icon__first-step svg {
+  color: {{ block.settings.color_icon_1 }};
+  fill: {{ block.settings.color_icon_1 }};
+}
+.delivery-icon__second-step svg {
+  color: {{ block.settings.color_icon_2 }};
+  fill: {{ block.settings.color_icon_2 }};
+}
+.delivery-icon__third-step svg {
+  color: {{ block.settings.color_icon_3 }};
+  fill: {{ block.settings.color_icon_3 }};
+}
+.delivery-date__first-step {
+  color: {{ block.settings.color_date_1 }};
+}
+.delivery-date__second-step {
+  color: {{ block.settings.color_date_2 }};
+}
+.delivery-date__third-step {
+  color: {{ block.settings.color_date_3 }};
+}
+.delivery-label__first-step {
+  color: {{ block.settings.color_text_1 }};
+}
+.delivery-label__second-step {
+  color: {{ block.settings.color_text_2 }};
+}
+.delivery-label__third-step {
+  color: {{ block.settings.color_text_3 }};
+}
+
+.delivery-icon {
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.delivery-icon svg {
+  width: 2.0rem;
+  height: 2.0rem;
+}
+
+.delivery-date {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.delivery-label {
+  font-size: 1.2rem;
+  position: absolute;
+  width: max-content;
+}
+
+.delivery-date-display {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  padding: 0.5rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+  display: inline-block;
+}
+</style>

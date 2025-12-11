@@ -1,0 +1,79 @@
+#productly-card-mobile-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-47%, -50%);
+  background-color: white;
+  width: 70vw;
+  min-width: 300px;
+  max-width: 450px;
+  height: max-content;
+  max-height: 550px;
+  
+  opacity: 0;
+  pointer-events: none;
+  z-index: 200;
+
+  transition: all 250ms ease-in-out;
+}
+
+#productly-card-mobile-popup.show {
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#productly-card-mobile-popup .productly-popup-wrapper {
+  padding: 8px; 
+}
+
+body.product-card-layout-07 #productly-card-mobile-popup .productly-popup-wrapper {
+  padding: 0;
+  padding-bottom: 15px;
+}
+
+#productly-card-mobile-popup .card-media,
+#productly-card-mobile-popup .card-information,
+#productly-card-mobile-popup .button-ATC,
+#productly-card-mobile-popup .card__badge {
+  display: none;
+  pointer-events: none;
+}
+
+#productly-card-mobile-popup .card-action .variants-popup {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: none;
+  transform: translate(0, 0);
+  position: relative;
+}
+
+#productly-card-mobile-popup.show .card-action .variants-popup {
+  pointer-events: auto;
+}
+
+#productly-card-mobile-popup .card-action .variants-popup-content .variants {
+  max-height: 100%;
+  height: max-content;  
+}
+
+#productly-card-mobile-popup .card-action .variants-popup-content .variants .selector-wrapper.option-color.unshow_swatch,
+.card-action .selector-wrapper.option-color.unshow_swatch {
+  display: block !important;
+}
+
+.card-action .selector-wrapper.option-color.unshow_swatch {
+  padding-bottom: 15px;
+}
+
+@media (max-width: 551px) {
+  #productly-card-mobile-popup {
+    min-width: 95%;
+  }
+
+  #productly-card-mobile-popup .card-action-bottom.has-wishlist,
+  #productly-card-mobile-popup .card-wishlist {
+    display: none !important;
+  }
+}

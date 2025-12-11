@@ -1,0 +1,87 @@
+{%- if settings.show_someone_purchase or settings.show_gdpr_cookie_consent -%}
+<div class="footbar-fixed">
+	<div class="footbar-fixed-right">
+        {%- if settings.someone_purchase_position == 'right' -%}
+            {% render 'productly-someone-purchase' %}
+        {%- endif -%}
+        {%- if settings.gdpr_cookie_consent_type == 'right' -%}
+            {% render 'productly-gdpr-cookie-consent' %}
+        {%- endif -%}
+    </div>
+	<div class="clearfix"></div>
+    <div class="footbar-fixed-left{% if settings.gdpr_cookie_consent_type == 'right' and settings.someone_purchase_position == 'left' %} cookie_someone_right{% endif %}">
+        {%- if settings.someone_purchase_position == 'left' -%}
+            {% render 'productly-someone-purchase' %}
+        {%- endif -%}
+        {%- if settings.gdpr_cookie_consent_type == 'left' -%}
+            {% render 'productly-gdpr-cookie-consent' %}
+        {%- endif -%}
+    </div>
+</div>
+{%- endif -%}
+
+{% render 'productly-newsletter-success-popup' %}
+
+{% render 'productly-lookbook-popup' %}
+
+{% render 'productly-lookbook-popup-mobile' %}
+
+{% render 'productly-video-popup' %}
+
+{% render 'productly-product-list-view-popup' %}
+
+{% render 'productly-product-custom-information' %}
+
+{%- if settings.show_newsletter_popup -%}
+	{% render 'productly-newsletter-popup' %}
+{%- endif -%}
+
+{%- if settings.show_recently_viewed_popup or settings.show_recently_viewed_share or settings.show_recently_viewed_top -%}
+	{% render 'productly-recently-viewed-popup' %}
+{%- endif -%}
+
+{%- if settings.show_quick_edit_cart -%}
+    {% render 'productly-edit-cart-popup' %}
+{%- endif -%}
+
+{%- if settings.show_ask_an_expert -%}
+	{% render 'productly-ask-an-expert-popup' %}
+{%- endif -%}
+
+{%- if settings.show_notify_form -%}
+	{% render 'productly-notify-me-popup' %}
+{%- endif -%}
+
+{%- if settings.after_add_to_cart == 'popup_cart_1' -%}
+	{% render 'productly-cart-popup-1' %}
+{%- endif -%}
+
+{%- if settings.show_compare -%}
+	{% render 'productly-compare-popup' %}
+{%- endif -%}
+
+{%- if settings.show_quick_view -%}
+	{% render 'productly-quick-view-popup' %}
+{%- endif -%}
+
+{%- if settings.show_global_checkbox -%}
+    {% render 'productly-term-condition-popup' %}
+{%- endif -%}
+
+{%- if settings.quick_shop_type == '1' or settings.quick_shop_type == '2' -%}
+    {% render 'productly-popup-card-mobile' %}
+{%- elsif settings.quick_shop_type == '3' -%}
+    {% render 'productly-quickshop-popup' %}
+{%- elsif settings.quick_shop_type == '4' -%}
+    {% render 'productly-quick-bulk-popup' %}
+{%- endif -%}
+
+{%- if settings.enable_sticky_notification or settings.enable_sticky_notification_mb -%}
+    {% render 'sticky-notification' %}
+{%- endif -%} 
+
+{% render 'productly-popup-warning' %}
+
+{%- if settings.show_scroll_down_section -%}
+    {% render 'productly-arrow-scroll-down' %}
+{%- endif -%}

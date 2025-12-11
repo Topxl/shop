@@ -1,0 +1,11 @@
+<div class="productly-popup productly-notify-popup customPopup-small productly-popup-LeftRight" data-notify-popup id="productly-notify-popup">
+    <div class="productly-popup-wrapper">
+    	<div class="productly-popup-header customPopup-header">
+		    <button type="button" class="productly-popup-close customPopup-close clearfix" data-close-notify-popup aria-label="{{ 'general.common.close' | t }}">{% render 'icon-close' %} {{ 'general.common.close' | t }}</button>
+		    <h5 class="productly-popup-title customPopup-title text-center">{{ settings.notify_form_title | escape }}</h5>
+    	</div>
+	    <div class="productly-popup-content custom-scrollbar">
+	        <div class="productly-notifyMe productly-notifyMe--popup">{% render 'productly-notify-sold-out', id_form: 'productly-notify-popup', show_message: true %}</div>
+	    </div>
+    </div>
+</div>

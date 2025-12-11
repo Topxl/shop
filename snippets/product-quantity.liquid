@@ -1,0 +1,94 @@
+{%- unless product -%}
+	{%- assign product = product -%}
+{%- endunless -%}
+{%- if qty_style == 'stacked' -%}
+    <quantity-options class="quantity__options {% if check_hidden %} hidden{% endif %}" style="margin-top: 3rem;">
+        {%- for i in (1..3) -%}
+					{%- assign unit_price = current_variant.price -%}					
+					{%- assign total_price = unit_price | times: i -%}
+					{%- assign discount_step = i | minus: 1 -%}
+					{%- assign current_discount = discount_step | times: discount_percentage -%}
+
+					{%- assign unit_discount_per_item = unit_price | times: current_discount | divided_by: 100 -%}
+					{%- assign unit_price_discounted = unit_price | minus: unit_discount_per_item -%}
+
+					{%- assign discount_amount = total_price | times: current_discount | divided_by: 100 -%}
+					{%- assign discounted_price = total_price | minus: discount_amount -%}
+					<div class="quantity__option{% if i == 1 %} selected{% endif %}" data-quantity="{{ i }}">
+						<div class="discount-badge" style="display: {% if i == 1 %}none{% endif %};">
+							-{{ current_discount }}%
+						</div>
+						<div class="quantity__image">
+							<img src="{{ product.featured_image | img_url: '200x' }}" alt="{{ product.title | escape }}" width="100" height="100">
+						</div>
+						<div class="quantity__info">
+							<span class="quantity__name">{{ i }} {{ block.settings.quantity_product_label }}{% if i > 1 %}s{% endif %}</span>
+							<span class="quantity__price">
+								{%- if i == 1 -%}
+									<span class="option-price">{{ total_price | money }}</span>
+									<span class="option-price">{{ total_price | money }} {{ block.settings.quantity_product_item_label }}</span>
+								{%- else -%}
+									<div>
+										<span class="option-price--old">{{ total_price | money }}</span>
+										<span class="option-price--sale">{{ discounted_price | money }}</span>
+									</div>
+									<span class="option-price">{{ unit_price_discounted | money }} {{ block.settings.quantity_product_item_label }}</span>
+								{%- endif -%}
+							</span>
+						</div>
+					</div>
+        {%- endfor -%}
+    </quantity-options>
+    <input type="hidden" 
+        name="quantity" 
+        value="1" 
+        id="quantity-{{ product.id }}{%- if quantity_stt > 1 -%}-{{ quantity_stt }}{%- endif -%}" 
+        data-product="{{ product.id }}" 
+        data-price="{{ current_variant.price }}"
+        data-discount-percentage="{{ discount_percentage }}"
+        data-quantity-input>
+{%- elsif qty_style == '1' -%}
+	<quantity-input class="productView-quantity quantity__group quantity__group--{{ quantity_stt }} quantity__style--{{ qty_style }} clearfix{% if check_hidden %} hidden{% endif %}" data-quantity-input>
+		<label class="form-label quantity__label" for="quantity-{{ product.id }}{%- if quantity_stt > 1 -%}-{{ quantity_stt }}{%- endif -%}">
+				{{ 'products.product.quantity.label__2' | t }}
+		</label>
+		<div class="quantity__container">
+				<button type="button" name="minus" class="minus btn-quantity">
+						<span class="visually-hidden">{{ 'products.product.quantity.decrease' | t: product: product.title | escape }}</span>
+				</button>
+				<input class="form-input quantity__input" 
+						type="number" 
+						name="quantity" 
+						min="1" 
+						value="1" 
+						inputmode="numeric" 
+						pattern="[0-9]*" 
+						id="quantity-{{ product.id }}{%- if quantity_stt > 1 -%}-{{ quantity_stt }}{%- endif -%}" 
+						data-product="{{ product.id }}" 
+						data-price="{{ current_variant.price }}"
+						data-discount-percentage="{{ discount_percentage }}"
+						data-quantity-input>
+				<button type="button" name="plus" class="plus btn-quantity">
+						<span class="visually-hidden">{{ 'products.product.quantity.increase' | t: product: product.title | escape }}</span>
+				</button>
+		</div>
+	</quantity-input>
+{%- elsif qty_style == '2' -%}
+	<quantity-input class="productView-quantity quantity__group quantity__group--{{ quantity_stt }} quantity__style--{{ qty_style }} clearfix{% if check_hidden %} hidden{% endif %}" data-quantity-input>
+	    <label class="form-label quantity__label" for="quantity-{{ product.id }}{%- if quantity_stt > 1 -%}-{{ quantity_stt }}{%- endif -%}">
+	        {{ 'products.product.quantity.label__2' | t }}
+	    </label>
+	    <input class="form-input quantity__input" 
+            type="number" 
+            name="quantity" 
+            min="1" 
+            value="1" 
+            inputmode="numeric" 
+            pattern="[0-9]*" 
+            id="quantity-{{ product.id }}{%- if quantity_stt > 1 -%}-{{ quantity_stt }}{%- endif -%}" 
+            data-product="{{ product.id }}" 
+            data-price="{{ current_variant.price }}"
+            data-discount-percentage="{{ discount_percentage }}"
+            data-quantity-input>
+	</quantity-input>
+{%- endif -%}

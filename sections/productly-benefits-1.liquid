@@ -1,0 +1,267 @@
+{%- comment -%}
+  Productly Benefits 1 Section
+  - Left: Image (user-chosen)
+  - Right: 3-4 benefit blocks (progress circle, percentage, optional header, description)
+{%- endcomment -%}
+
+{%- assign section_bg = section.settings.bg_color | default: '#fff' -%}
+{%- assign section_padding_top = section.settings.padding_top | default: 40 -%}
+{%- assign section_padding_bottom = section.settings.padding_bottom | default: 40 -%}
+
+<style>
+  .productly-benefits-1-section {
+    display: block;
+  }
+  @media (min-width: 768px) {
+    .productly-benefits-1-section {
+      display: grid;
+      grid-template-columns: minmax(40%, 1fr) 1fr;
+      align-items: stretch;
+      gap: 32px;
+      background: {{ section_bg }};
+      padding-top: {{ section_padding_top }}px;
+      padding-bottom: {{ section_padding_bottom }}px;
+    }
+  }
+  .productly-benefits-1-section__header {
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 32px;
+  }
+  .benefits-image-col {
+    flex: 1 1 40%;
+    min-width: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .benefits-image-col img {
+    border-radius: 16px;
+    object-fit: cover;
+    height: auto;
+    width: 100%;
+    max-width: 800px;
+  }
+  .benefits-image-col .benefits-image-placeholder {
+    width: 100%;
+    height: 320px;
+    background: #f3f3f3;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+  }
+  .benefits-list-col {
+    flex: 1 1 60%;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+  }
+  .benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    border-radius: 12px;
+    padding: 20px 16px;
+  }
+  .benefit-progress-circle {
+    min-width: 64px;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .benefit-progress-circle svg {
+    width: 5rem;
+    height: 5rem;
+  }
+  .benefit-progress-circle svg text {
+    stroke: none;
+  }
+  .benefit-header {
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 0.25em;
+  }
+  .benefit-description {
+    font-size: 1em;
+    line-height: 1.5;
+  }
+  .benefits-image-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+
+  <div class="{% if section.settings.container == 'fullwidth' %}container-full{% elsif section.settings.container == '1770' %}container-1770{% elsif section.settings.container == '1170' %}container-1170{% else %}container{% endif %}">
+    <div class="productly-benefits-1-section">
+      <div class="productly-benefits-1-section__header-wrapper" style="width:100%;">
+        {%- if section.settings.show_section_header -%}
+          <h2 class="productly-benefits-1-section__header">{{ section.settings.section_header }}</h2>
+        {%- endif -%}
+      </div>
+      <div class="benefits-image-col">
+        {%- if section.settings.image != blank -%}
+          <div class="benefits-image-wrapper">
+            <img src="{{ section.settings.image | img_url: '800x' }}" alt="{{ section.settings.image.alt | escape }}" loading="lazy" width="800" height="600">
+          </div>
+        {%- else -%}
+          <div class="benefits-image-placeholder">No image selected</div>
+        {%- endif -%}
+      </div>
+      <div class="benefits-list-col">
+        {%- for block in section.blocks -%}
+          <div class="benefit-item" style="background: {{ block.settings.bg_color }};">
+            {%- if section.settings.show_progress_circle -%}
+              <div class="benefit-progress-circle">
+                {%- assign percent = block.settings.percent | default: 0 -%}
+                {%- assign circle_circumference = 2 | times: 3.1416 | times: 28 -%}
+                {%- assign offset = circle_circumference | times: percent | divided_by: 100 -%}
+                {%- assign dashoffset = circle_circumference | minus: offset -%}
+                <svg width="64" height="64" viewBox="0 0 64 64">
+                  <circle cx="32" cy="32" r="28" fill="none" stroke="#eee" stroke-width="8" />
+                  <circle cx="32" cy="32" r="28" fill="none" stroke="{{ block.settings.icon_color | default: '#eb492f' }}" stroke-width="8" stroke-dasharray="{{ circle_circumference }}" stroke-dashoffset="{{ dashoffset }}" style="transition: stroke-dashoffset 0.6s;"/>
+                  <text x="32" y="38" text-anchor="middle" font-size="20" fill="{{ block.settings.icon_color | default: '#eb492f' }}" font-weight="bold">{{ percent }}%</text>
+                </svg>
+              </div>
+            {%- endif -%}
+            <div class="benefit-content">
+              {%- if block.settings.show_header -%}
+                <div class="benefit-header" style="color:{{ block.settings.text_color }};">{{ block.settings.header }}</div>
+              {%- endif -%}
+              <div class="benefit-description" style="color:{{ block.settings.text_color }};">{{ block.settings.description }}</div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+{% schema %}
+{
+  "name": "Productly Benefits 1",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (Left Column)"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#fff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_header",
+      "label": "Show section header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_circle",
+      "label": "Show progress circle",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "section_header",
+      "label": "Section header text",
+      "default": "Our Benefits"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit Item",
+      "settings": [
+        {
+          "type": "range",
+          "id": "percent",
+          "label": "Percentage",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 90
+        },
+        {
+          "type": "checkbox",
+          "id": "show_header",
+          "label": "Show Header",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "header",
+          "label": "Header",
+          "default": "Benefit Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Benefit description goes here."
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Benefit background color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#232323"
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Progress circle color",
+          "default": "#eb492f"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Productly Benefits 1",
+      "blocks": [
+        { "type": "benefit" },
+        { "type": "benefit" },
+        { "type": "benefit" }
+      ]
+    }
+  ]
+}
+{% endschema %} 

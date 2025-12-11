@@ -1,0 +1,32 @@
+# Shopify Theme .gitignore
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Node modules (if using theme tools)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment files
+.env
+.env.local
+
+# Build files
+dist/
+build/
+
+# Temporary files
+*.tmp
+*.log
