@@ -21,25 +21,25 @@
             endif
 
             comment
-                Récupérer les images de bundle depuis le métaobjet si disponible
+                IMAGES DE BUNDLE PERSONNALISÉES
+                Utilise les métachamps simples du produit pour les images de bundle
+                - custom.bundle_image_2 : Image pour bundle de 2 produits
+                - custom.bundle_image_3 : Image pour bundle de 3 produits
+                Si aucune image personnalisée, utilise l'image principale du produit
             endcomment
-            assign bundle_images_ref = product.metafields.custom.bundle_images
             assign bundle_image_to_use = null
             
-            if bundle_images_ref != blank
-                comment
-                    Déterminer quelle image utiliser selon le nombre de produits dans le bundle
-                    bundle_count est passé depuis product-bundle.liquid
-                endcomment
-                if bundle_count == 2
-                    assign bundle_image_to_use = bundle_images_ref.image_bundle_2_produits
-                elsif bundle_count == 3
-                    assign bundle_image_to_use = bundle_images_ref.image_bundle_3_produits
-                endif
+            comment
+                Déterminer quelle image utiliser selon le nombre de produits dans le bundle
+            endcomment
+            if bundle_count == 2 and product.metafields.custom.bundle_image_2 != blank
+                assign bundle_image_to_use = product.metafields.custom.bundle_image_2
+            elsif bundle_count == 3 and product.metafields.custom.bundle_image_3 != blank
+                assign bundle_image_to_use = product.metafields.custom.bundle_image_3
             endif
 
             comment
-                Si aucune image de bundle personnalisée, utiliser l'image principale du produit
+                Fallback: Si aucune image de bundle personnalisée, utiliser l'image principale
             endcomment
             if bundle_image_to_use == blank
                 assign bundle_image_to_use = product.featured_media
