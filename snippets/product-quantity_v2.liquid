@@ -62,9 +62,17 @@
 					{%- if i == 1 -%}
 						{%- assign quantity_image = block.settings.single_quantity | default: product.featured_image -%}
 					{%- elsif i == 2 -%}
-						{%- assign quantity_image = block.settings.double_quantity | default: product.featured_image -%}
+						{%- if product.metafields.custom.bundle_image_2 != blank -%}
+							{%- assign quantity_image = product.metafields.custom.bundle_image_2 -%}
+						{%- else -%}
+							{%- assign quantity_image = block.settings.double_quantity | default: product.featured_image -%}
+						{%- endif -%}
 					{%- elsif i == 3 -%}
-						{%- assign quantity_image = block.settings.tripple_quantity | default: product.featured_image -%}
+						{%- if product.metafields.custom.bundle_image_3 != blank -%}
+							{%- assign quantity_image = product.metafields.custom.bundle_image_3 -%}
+						{%- else -%}
+							{%- assign quantity_image = block.settings.tripple_quantity | default: product.featured_image -%}
+						{%- endif -%}
 					{%- endif -%}
 					
 					<div class="quantity__option{% if i == 1 %} selected{% endif %}" data-quantity="{{ i }}">
