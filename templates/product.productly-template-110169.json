@@ -83,7 +83,10 @@
           "settings": {
             "discount_percentage_type": "manual",
             "discount_percentage": 30,
+            "single_quantity": "shopify://shop_images/1_7b11b9e2-c567-4d53-91fa-c129cbb96e00.png",
+            "double_quantity": "shopify://shop_images/2_577a6f8e-ee1c-4970-9d5e-bd626416bbb2.png",
             "discount_percentage_2": 15,
+            "tripple_quantity": "shopify://shop_images/3_b128b2db-ffee-4af8-a12c-68fc3f5702a8.png",
             "discount_percentage_3": 30,
             "discount_badge_background_color": "#ff0000",
             "discount_badge_text_color": "#ffffff",
