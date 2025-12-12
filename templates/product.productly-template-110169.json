@@ -83,10 +83,7 @@
           "settings": {
             "discount_percentage_type": "manual",
             "discount_percentage": 30,
-            "single_quantity": "shopify://shop_images/1_df12c298-d22a-483f-8573-4cf7373e427b.png",
-            "double_quantity": "shopify://shop_images/2_d01f5769-1da1-4df6-b45b-478d3bf27867.png",
             "discount_percentage_2": 15,
-            "tripple_quantity": "shopify://shop_images/3_3fb1670c-8514-424b-aa3b-c5655f12b1b1.png",
             "discount_percentage_3": 30,
             "discount_badge_background_color": "#ff0000",
             "discount_badge_text_color": "#ffffff",
@@ -385,8 +382,8 @@
           "settings": {
             "image": "shopify://shop_images/main_fb29aef8-c0f5-4ed6-9097-a80d4b5f16c8.png",
             "caption": "",
-            "heading": "Non-GMO Formula",
-            "text": "<p>Livaya Ashwagandha Ginseng Indien is crafted with non-GMO ingredients, providing a natural and wholesome supplement free from genetically modified organisms.</p>",
+            "heading": "Unleash Your Potential. Maximum Efficacy.",
+            "text": "<p><strong>CLINICALLY PROVEN:</strong> Reduces <strong>stress</strong> and supports <strong>emotional balance</strong>.</p><p><strong>BOOST FOCUS:</strong> Enhances <strong>concentration</strong>, mental clarity, and learning abilities.</p><p><strong>PURE POWER:</strong> Patented <strong>KSM-66®</strong> extract, highly concentrated at <strong>500 mg</strong> per capsule.</p><p><strong>FEEL THE DIFFERENCE:</strong> Achieve true <strong>serenity</strong> and sustained <strong>energy</strong>.</p>",
             "button_label": "",
             "button_link": ""
           }
@@ -396,8 +393,8 @@
           "settings": {
             "image": "shopify://shop_images/unnamed.jpg",
             "caption": "",
-            "heading": "Qualité Supérieure. Résultats Maximums.",
-            "text": "<p><strong>500 mg</strong> par capsule pour une puissance garantie.</p><p>Formulé avec l'extrait <strong>KSM-66®</strong> pour une efficacité optimale.</p><p>Idéal pour le <strong>stress, la sérénité et l'énergie</strong>.</p>",
+            "heading": "WHY CHOOSE LIVAYA KSM-66?",
+            "text": "<p>Our powerful 500 mg formula is designed for complete mind-body support.</p><p><strong>Stress Relief:</strong> Promotes stress relief and supports calming serenity.</p><p><strong>Vitality:</strong> Helps boost energy levels and supports occasional sleeplessness.</p>",
             "button_label": "",
             "button_link": ""
           }
@@ -407,8 +404,8 @@
           "settings": {
             "image": "shopify://shop_images/ok.png",
             "caption": "",
-            "heading": "Ashwagandha Livaya : KSM-66®",
-            "text": "<p><strong>500 mg</strong> par capsule.</p><p>Réduction du <strong>stress</strong> (études cliniques).</p><p>Améliore la <strong>concentration</strong> et l'<strong>équilibre émotionnel</strong>.</p><p>Soutient l'<strong>énergie</strong> et la <strong>sérénité</strong>.</p>",
+            "heading": "MAXIMUM EFFICACY. BEST VALUE.",
+            "text": "<p>Livaya is formulated for optimal results, making our bundles the smart choice:</p><p><strong>Optimal Potency:</strong> Features patented <strong>KSM-66®</strong> extract for verified efficacy.</p><p><strong>Clinical Focus:</strong> Supports emotional balance and mental clarity, backed by clinical research.</p><p><strong>SAVE BIG:</strong> Stock up and <strong>save up to 30%</strong> with our volume discounts.</p>",
             "button_label": "",
             "button_link": ""
           }
@@ -416,7 +413,7 @@
         "long_benefits_3": {
           "type": "row",
           "settings": {
-            "image": "shopify://shop_images/3_01d06ae9-1bde-4e7d-bddc-f67d7576c111.png",
+            "image": "shopify://shop_images/back.png",
             "caption": "",
             "heading": "Boosted Energy Levels",
             "text": "<p>Experience increased energy support with Livaya Ashwagandha Ginseng Indien, helping you stay active and alert throughout the day.</p>",
@@ -426,6 +423,7 @@
         },
         "long_benefits_4": {
           "type": "row",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/back.png",
             "caption": "",
