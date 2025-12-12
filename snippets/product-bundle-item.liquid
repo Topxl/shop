@@ -1,228 +1,296 @@
-<div class="bundle-product-item style-{{ product_style }}{% if first %} bundle-product-itemFirst{% endif %}{% if product.available %} isChecked{% endif %}" data-bundle-product-item-id="{{ product.id }}">
-    <div class="bundlePdItem-container">
-        <script>
-            window.productVariants = window.productVariants || {};
-            window.productVariants[{{ product.id }}] = {{ product.variants | json }};
-            {% if settings.show_hot_stock %}
-                window.bundle_inven_array_{{ product.id }} = {
-                    {% for variant in product.variants %}
-                        '{{ variant.id }}': '{{ variant.inventory_quantity }}',
-                    {%endfor%}
-                };
+<div
+  class="bundle-product-item style-{{ product_style }}{% if first %} bundle-product-itemFirst{% endif %}{% if product.available %} isChecked{% endif %}"
+  data-bundle-product-item-id="{{ product.id }}"
+>
+  <div class="bundlePdItem-container">
+    <script>
+      window.productVariants = window.productVariants || {};
+      window.productVariants[{{ product.id }}] = {{ product.variants | json }};
+      {% if settings.show_hot_stock %}
+          window.bundle_inven_array_{{ product.id }} = {
+              {% for variant in product.variants %}
+                  '{{ variant.id }}': '{{ variant.inventory_quantity }}',
+              {%endfor%}
+          };
+      {% endif %}
+    </script>
+    {%- liquid
+      assign current_variant = product.selected_or_first_available_variant
+      assign variantCount = product.variants | size
+      assign featured_media_aspect_ratio = product.featured_media.aspect_ratio
+
+      if product.featured_media.aspect_ratio == null
+        assign featured_media_aspect_ratio = 1
+      endif
+
+      comment
+        IMAGES DE BUNDLE PERSONNALISÉES PAR POSITION
+        Utilise les métachamps du produit pour afficher différentes images selon la position
+        - custom.bundle_image_1 : Image pour la position 1 (produit principal)
+        - custom.bundle_image_2 : Image pour la position 2
+        - custom.bundle_image_3 : Image pour la position 3
+        - custom.bundle_image_4 : Image pour la position 4
+        Si aucune image personnalisée, utilise l'image principale du produit
+      endcomment
+      assign bundle_image_to_use = null
+
+      comment
+        Déterminer quelle image utiliser selon la position dans le bundle
+      endcomment
+      if bundle_position == 1 and product.metafields.custom.bundle_image_1 != blank
+        assign bundle_image_to_use = product.metafields.custom.bundle_image_1
+      elsif bundle_position == 2 and product.metafields.custom.bundle_image_2 != blank
+        assign bundle_image_to_use = product.metafields.custom.bundle_image_2
+      elsif bundle_position == 3 and product.metafields.custom.bundle_image_3 != blank
+        assign bundle_image_to_use = product.metafields.custom.bundle_image_3
+      elsif bundle_position == 4 and product.metafields.custom.bundle_image_4 != blank
+        assign bundle_image_to_use = product.metafields.custom.bundle_image_4
+      endif
+
+      comment
+        Fallback: Si aucune image de bundle personnalisée, utiliser l'image principale
+      endcomment
+      if bundle_image_to_use == blank
+        assign bundle_image_to_use = product.featured_media
+      endif
+
+      if bundle_image_to_use.aspect_ratio != null
+        assign featured_media_aspect_ratio = bundle_image_to_use.aspect_ratio
+      endif
+    -%}
+    {%- if product_style == '3' -%}
+      <div class="bundle-product-checkbox">
+        <input
+          type="checkbox"
+          value="{{ product.title | split: '|' | first | handleize }}"
+          checked
+          autocomplete="off"
+          id="bundle-product-item-{{ product.id }}"
+        >
+        <label
+          class="form-label--checkbox"
+          for="bundle-product-item-{{ product.id }}"
+          data-bundle-checkbox
+          data-bundle-include="{{ 'products.product.bundle_block.include' | t }}"
+          data-bundle-included="{{ 'products.product.bundle_block.included' | t }}"
+        >
+          {{ 'products.product.bundle_block.included' | t }}
+        </label>
+      </div>
+    {%- endif -%}
+    <div class="bundle-product-image">
+      <a
+        href="{{ product.url }}"
+        class="bundle-product-media bundle-product-media--{{ image_ratio }}"
+        {% if bundle_image_to_use %}
+          {% if image_ratio == 'adapt' %}
+            style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
+          {% elsif image_ratio == 'square' %}
+            style="padding-bottom: 100%;"
+          {% elsif image_ratio == 'portrait' %}
+            {% if portrait_aspect_ratio != blank %}
+              style="padding-bottom: {{ portrait_aspect_ratio | append: '%' }};"
             {% endif %}
-        </script>
-        {%- liquid
-            assign current_variant = product.selected_or_first_available_variant
-            assign variantCount = product.variants | size
-            assign featured_media_aspect_ratio = product.featured_media.aspect_ratio
-
-            if product.featured_media.aspect_ratio == nil
-                assign featured_media_aspect_ratio = 1
-            endif
-
-            comment
-                IMAGES DE BUNDLE PERSONNALISÉES
-                Utilise les métachamps simples du produit pour les images de bundle
-                - custom.bundle_image_2 : Image pour bundle de 2 produits
-                - custom.bundle_image_3 : Image pour bundle de 3 produits
-                Si aucune image personnalisée, utilise l'image principale du produit
-            endcomment
-            assign bundle_image_to_use = null
-            
-            comment
-                Déterminer quelle image utiliser selon le nombre de produits dans le bundle
-            endcomment
-            if bundle_count == 2 and product.metafields.custom.bundle_image_2 != blank
-                assign bundle_image_to_use = product.metafields.custom.bundle_image_2
-            elsif bundle_count == 3 and product.metafields.custom.bundle_image_3 != blank
-                assign bundle_image_to_use = product.metafields.custom.bundle_image_3
-            endif
-
-            comment
-                Fallback: Si aucune image de bundle personnalisée, utiliser l'image principale
-            endcomment
-            if bundle_image_to_use == blank
-                assign bundle_image_to_use = product.featured_media
-            endif
-
-            if bundle_image_to_use.aspect_ratio != nil
-                assign featured_media_aspect_ratio = bundle_image_to_use.aspect_ratio
-            endif
-        -%}
-        {%- if product_style == '3' -%}
-            <div class="bundle-product-checkbox">
-                <input type="checkbox" value="{{ product.title | split: '|' | first | handleize }}" checked autocomplete="off" id="bundle-product-item-{{ product.id }}" />
-                <label class="form-label--checkbox" for="bundle-product-item-{{ product.id }}" data-bundle-checkbox data-bundle-include="{{ 'products.product.bundle_block.include' | t }}" data-bundle-included="{{ 'products.product.bundle_block.included' | t }}">
-                    {{ 'products.product.bundle_block.included' | t }}
-                </label>
-            </div>
-        {%- endif -%}
-        <div class="bundle-product-image">
-            <a href="{{ product.url }}" class="bundle-product-media bundle-product-media--{{ image_ratio }}"
-                {% if bundle_image_to_use %}
-                    {% if image_ratio == 'adapt' %}
-                        style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
-                    {% elsif image_ratio == 'square' %}
-                        style="padding-bottom: 100%;"
-                    {% elsif image_ratio == 'portrait' %}
-                        {% if portrait_aspect_ratio != blank %}
-                            style="padding-bottom: {{ portrait_aspect_ratio | append: '%' }};"
-                        {% endif %}
-                    {% endif %}
-                {% endif %}
-            >
-                {%- if bundle_image_to_use -%}
-                    <img srcset="
-                        {%- if bundle_image_to_use.width >= 165 -%}
-                            {{ bundle_image_to_use | img_url: '165x' }} 165w,
-                        {%- endif -%}
-                        {%- if bundle_image_to_use.width >= 360 -%}
-                            {{ bundle_image_to_use | img_url: '360x' }} 360w,
-                        {%- endif -%}
-                        {%- if bundle_image_to_use.width >= 533 -%}
-                            {{ bundle_image_to_use | img_url: '533x' }} 533w,
-                        {%- endif -%}
-                        {%- if bundle_image_to_use.width >= 534 -%}
-                            {{ bundle_image_to_use | img_url: '534x' }} 534w,
-                        {%- endif -%}
-                        {%- if bundle_image_to_use.width >= 720 -%}
-                            {{ bundle_image_to_use | img_url: '720x' }} 720w,
-                        {%- endif -%}
-                        {%- if bundle_image_to_use.width >= 940 -%}
-                            {{ bundle_image_to_use | img_url: '940x' }} 940w,
-                        {%- endif -%}
-                        {%- if bundle_image_to_use.width >= 1066 -%}
-                            {{ bundle_image_to_use | img_url: '1066x' }} 1066w
-                        {%- endif -%}"
-                        src="{{ bundle_image_to_use | img_url: '533x' }}"
-                        sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)"
-                        alt="{{ bundle_image_to_use.alt | escape }} {{bundle_image_to_use.width}}"
-                        loading="lazy"
-                        class="motion-reduce"
-                    >
-                {%- else -%}
-                    {%- capture current %}{% cycle 1, 2, 3, 4 %}{% endcapture -%}
-                    {%- assign placeholder_image = 'product-apparel-' | append: current -%}
-                    {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
-                {%- endif -%}
-            </a>
-            {%- if product_style == '1' -%}
-                {%- if variantCount > 1 -%}
-                    <button type="button" aria-label="{{ 'products.product.select_options' | t }}" class="button bundle-product-toogle button-2" role="button" tabindex="0">
-                        {{ 'products.product.select_options' | t }}
-                    </button>
-                {%- endif -%}
-            {%- endif -%}
-        </div>
-        <div class="bundle-product-content">
-            {%- if product_style == '3' -%}
-                {%- if settings.show_vendor -%}
-                    <div class="bundle-product-vendor">
-                        <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-                        {{ product.vendor | link_to_vendor }}
-                    </div>
-                {%- endif -%}
-            {%- endif -%}
-            {%- if product_style != '3' -%}
-                <div class="bundle-product-checkbox">
-                    <input type="checkbox" value="{{ product.title | split: '|' | first | handleize }}" checked autocomplete="off" id="bundle-product-item-{{ product.id }}" />
-                    <label class="form-label--checkbox product-title" for="bundle-product-item-{{ product.id }}" data-bundle-checkbox>
-                        {{ product.title | split: '|' | first }}
-                        {%- if variantCount > 1 and settings.enable_swatch_name -%}
-                            <span data-bundle-product-title> - {{ current_variant.title }}</span>
-                        {%- endif -%}
-                    </label>
-                    {%- if product_style == '1' -%}
-                        {%- if settings.show_vendor -%}
-                            <div class="bundle-product-vendor">
-                                <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-                                {{ product.vendor | link_to_vendor }}
-                            </div>
-                        {%- endif -%}
-                    {%- endif -%}
-                </div>
-            {%- else -%}
-                <div class="bundle-product-title">
-                    <a class="product-title" href="{{ product.url }}">
-                        {{ product.title | split: '|' | first }}
-                        {%- if variantCount > 1 and settings.enable_swatch_name -%}
-                            <span data-bundle-product-title> - {{ current_variant.title }}</span>
-                        {%- endif -%}
-                    </a>
-                </div>
-            {%- endif -%}
-            <div class="bundle-product-price">
-                <div class="price-box card-price">
-                    {%- if product.compare_at_price > product.price -%}
-                        <div class="price-sale clearfix">
-                            <span class="old-price">
-                                {{ product.variants[0].compare_at_price | money }}
-                            </span>
-                            <span class="special-price" data-bundle-product-price>
-                                {{ product.variants[0].price | money }}
-                            </span>
-                        </div>
-                    {%- else -%}
-                        <div class="price-regular">
-                            <span data-bundle-product-price>
-                                {{ product.variants[0].price | money }}
-                            </span>
-                        </div>
-                    {%- endif -%}
-                </div>
-            </div>
-            {%- if product_style == '2' or product_style == '3' -%}
-                {%- if variantCount > 1 -%}
-                    <button type="button" aria-label="{{ 'products.product.select_options' | t }}" class="button bundle-product-toogle button-2" role="button" tabindex="0">
-                        {{ 'products.product.select_options' | t }}
-                    </button>
-                {%- endif -%}
-            {%- endif -%}
-        </div>
-        {%- if variantCount > 1 -%}
-            <select id="product-variants-{{ product.id }}" name="group_id" style="display: none;" autocomplete="off">
-                {%- for variant in product.variants -%}
-                    {%- if variant.available -%}
-                        <option {% if variant == current_variant %} selected="selected" {% endif %} value="{{ variant.id }}" data-price="{{ variant.price }}" {% if variant.image.src != blank %}data-image="{{ variant.image.src | product_img_url: 'master' }}"{% endif %}>
-                            {{ variant.title }} - {{ variant.price | money }}
-                        </option>
-                    {%- else -%}
-                        <option disabled="disabled" data-price="{{ variant.price }}">
-                            {{ variant.title }} - {{ variant.price | money }}
-                        </option>
-                    {%- endif -%}
-                {%- endfor -%}
-            </select>
-            <div class="bundle-product-options productly-popup customPopup-small productly-popup-LeftRight isChecked" data-product-option-id="{{ product.id }}">
-                <div class="productly-popup-wrapper">
-                    <div class="productly-popup-header customPopup-header">
-                        <button type="button" class="bundle-option-close productly-popup-close clearfix" aria-label="{{ 'general.common.close' | t }}">
-                            <span class="visually-hidden">{{ 'general.common.close' | t }}</span>
-                            {% render 'icon-close' %}
-                        </button>
-                        <h5 class="bundle-option-title productly-popup-title customPopup-title text-center">
-                            {{ 'products.product.select_options' | t }}
-                        </h5>
-                    </div>
-                    <div class="bundle-option-content productly-popup-content custom-scrollbar">
-                        {% render 'product-bundle-swatch',
-                            product: product
-                        %}
-                        {%- if settings.show_hot_stock -%}
-                            {% assign productMaxStock = settings.hot_stock_limit | plus: 0 %}
-                            <div class="bundle-hotStock" data-bundle-hot-stock="{{ productMaxStock }}">
-                                {%- if current_variant.inventory_management -%}
-                                    {%- if current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= productMaxStock -%}
-                                        {{ 'products.product.hot_stock' | t : inventory: current_variant.inventory_quantity }}
-                                    {%- endif -%}
-                                {%- endif -%}
-                            </div>
-                        {%- endif -%}
-                    </div>
-                </div>
-            </div>
+          {% endif %}
+        {% endif %}
+      >
+        {%- if bundle_image_to_use -%}
+          <img
+            srcset="
+              {%- if bundle_image_to_use.width >= 165 -%}
+                  {{ bundle_image_to_use | img_url: '165x' }} 165w,
+              {%- endif -%}
+              {%- if bundle_image_to_use.width >= 360 -%}
+                  {{ bundle_image_to_use | img_url: '360x' }} 360w,
+              {%- endif -%}
+              {%- if bundle_image_to_use.width >= 533 -%}
+                  {{ bundle_image_to_use | img_url: '533x' }} 533w,
+              {%- endif -%}
+              {%- if bundle_image_to_use.width >= 534 -%}
+                  {{ bundle_image_to_use | img_url: '534x' }} 534w,
+              {%- endif -%}
+              {%- if bundle_image_to_use.width >= 720 -%}
+                  {{ bundle_image_to_use | img_url: '720x' }} 720w,
+              {%- endif -%}
+              {%- if bundle_image_to_use.width >= 940 -%}
+                  {{ bundle_image_to_use | img_url: '940x' }} 940w,
+              {%- endif -%}
+              {%- if bundle_image_to_use.width >= 1066 -%}
+                  {{ bundle_image_to_use | img_url: '1066x' }} 1066w
+              {%- endif -%}
+            "
+            src="{{ bundle_image_to_use | img_url: '533x' }}"
+            sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)"
+            alt="{{ bundle_image_to_use.alt | escape }} {{bundle_image_to_use.width}}"
+            loading="lazy"
+            class="motion-reduce"
+          >
         {%- else -%}
-            <input type="hidden" name="group_id"  value="{{ product.variants[0].id }}" data-price="{{ product.variants[0].price }}"/>
+          {%- capture current %}{% cycle 1, 2, 3, 4 %}{% endcapture -%}
+          {%- assign placeholder_image = 'product-apparel-' | append: current -%}
+          {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
         {%- endif -%}
+      </a>
+      {%- if product_style == '1' -%}
+        {%- if variantCount > 1 -%}
+          <button
+            type="button"
+            aria-label="{{ 'products.product.select_options' | t }}"
+            class="button bundle-product-toogle button-2"
+            role="button"
+            tabindex="0"
+          >
+            {{ 'products.product.select_options' | t }}
+          </button>
+        {%- endif -%}
+      {%- endif -%}
     </div>
+    <div class="bundle-product-content">
+      {%- if product_style == '3' -%}
+        {%- if settings.show_vendor -%}
+          <div class="bundle-product-vendor">
+            <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+            {{ product.vendor | link_to_vendor }}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+      {%- if product_style != '3' -%}
+        <div class="bundle-product-checkbox">
+          <input
+            type="checkbox"
+            value="{{ product.title | split: '|' | first | handleize }}"
+            checked
+            autocomplete="off"
+            id="bundle-product-item-{{ product.id }}"
+          >
+          <label
+            class="form-label--checkbox product-title"
+            for="bundle-product-item-{{ product.id }}"
+            data-bundle-checkbox
+          >
+            {{ product.title | split: '|' | first }}
+            {%- if variantCount > 1 and settings.enable_swatch_name -%}
+              <span data-bundle-product-title> - {{ current_variant.title }}</span>
+            {%- endif -%}
+          </label>
+          {%- if product_style == '1' -%}
+            {%- if settings.show_vendor -%}
+              <div class="bundle-product-vendor">
+                <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+                {{ product.vendor | link_to_vendor }}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <div class="bundle-product-title">
+          <a class="product-title" href="{{ product.url }}">
+            {{ product.title | split: '|' | first }}
+            {%- if variantCount > 1 and settings.enable_swatch_name -%}
+              <span data-bundle-product-title> - {{ current_variant.title }}</span>
+            {%- endif -%}
+          </a>
+        </div>
+      {%- endif -%}
+      <div class="bundle-product-price">
+        <div class="price-box card-price">
+          {%- if product.compare_at_price > product.price -%}
+            <div class="price-sale clearfix">
+              <span class="old-price">
+                {{ product.variants[0].compare_at_price | money }}
+              </span>
+              <span class="special-price" data-bundle-product-price>
+                {{ product.variants[0].price | money }}
+              </span>
+            </div>
+          {%- else -%}
+            <div class="price-regular">
+              <span data-bundle-product-price>
+                {{ product.variants[0].price | money }}
+              </span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- if product_style == '2' or product_style == '3' -%}
+        {%- if variantCount > 1 -%}
+          <button
+            type="button"
+            aria-label="{{ 'products.product.select_options' | t }}"
+            class="button bundle-product-toogle button-2"
+            role="button"
+            tabindex="0"
+          >
+            {{ 'products.product.select_options' | t }}
+          </button>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+    {%- if variantCount > 1 -%}
+      <select id="product-variants-{{ product.id }}" name="group_id" style="display: none;" autocomplete="off">
+        {%- for variant in product.variants -%}
+          {%- if variant.available -%}
+            <option
+              {% if variant == current_variant %}
+                selected="selected"
+              {% endif %}
+              value="{{ variant.id }}"
+              data-price="{{ variant.price }}"
+              {% if variant.image.src != blank %}
+                data-image="{{ variant.image.src | product_img_url: 'master' }}"
+              {% endif %}
+            >
+              {{ variant.title }} - {{ variant.price | money }}
+            </option>
+          {%- else -%}
+            <option disabled="disabled" data-price="{{ variant.price }}">
+              {{ variant.title }} - {{ variant.price | money }}
+            </option>
+          {%- endif -%}
+        {%- endfor -%}
+      </select>
+      <div
+        class="bundle-product-options productly-popup customPopup-small productly-popup-LeftRight isChecked"
+        data-product-option-id="{{ product.id }}"
+      >
+        <div class="productly-popup-wrapper">
+          <div class="productly-popup-header customPopup-header">
+            <button
+              type="button"
+              class="bundle-option-close productly-popup-close clearfix"
+              aria-label="{{ 'general.common.close' | t }}"
+            >
+              <span class="visually-hidden">{{ 'general.common.close' | t }}</span>
+              {% render 'icon-close' %}
+            </button>
+            <h5 class="bundle-option-title productly-popup-title customPopup-title text-center">
+              {{ 'products.product.select_options' | t }}
+            </h5>
+          </div>
+          <div class="bundle-option-content productly-popup-content custom-scrollbar">
+            {% render 'product-bundle-swatch', product: product %}
+            {%- if settings.show_hot_stock -%}
+              {% assign productMaxStock = settings.hot_stock_limit | plus: 0 %}
+              <div class="bundle-hotStock" data-bundle-hot-stock="{{ productMaxStock }}">
+                {%- if current_variant.inventory_management -%}
+                  {%- if current_variant.inventory_quantity > 0
+                    and current_variant.inventory_quantity <= productMaxStock
+                  -%}
+                    {{ 'products.product.hot_stock' | t: inventory: current_variant.inventory_quantity }}
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {%- else -%}
+      <input
+        type="hidden"
+        name="group_id"
+        value="{{ product.variants[0].id }}"
+        data-price="{{ product.variants[0].price }}"
+      >
+    {%- endif -%}
+  </div>
 </div>
