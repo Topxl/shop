@@ -475,6 +475,7 @@
         "long_benefits_3": {
           "type": "row",
           "settings": {
+            "image": "shopify://shop_images/back.png",
             "caption": "",
             "heading": "Boosted Energy Levels",
             "text": "<p>Experience increased energy support with Livaya Ashwagandha Ginseng Indien, helping you stay active and alert throughout the day.</p>",
@@ -484,6 +485,7 @@
         },
         "long_benefits_4": {
           "type": "row",
+          "disabled": true,
           "settings": {
             "caption": "",
             "heading": "Enhanced Stress Relief",
